@@ -8,6 +8,29 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="10" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="1" Margin="223,18,203,0" FontSize="18" TextWrapping="Wrap" Text="Car Audio Player" VerticalAlignment="Top"/>
+        <Button Grid.Row="0" Grid.Column="1" Content="Load Folder" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" Click="btnBrowse_Click"/>
+
+        <ListView Grid.Row="1"  Grid.Column="1" x:Name="lstMusic">
+            <ListView.ItemTemplate>
+                <DataTemplate x:Name="Music" x:DataType="local:Music">
+                    <TextBlock Text="{x:Bind Name}" Tag="{x:Bind Id}" Width="580" Tapped="btnMusic_Click" VerticalAlignment="Center"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <MediaElement x:Name="mediaElement" Grid.Row="2" Grid.Column="1" Margin="0,20" AreTransportControlsEnabled="True" />
 
     </Grid>
 </Page>
