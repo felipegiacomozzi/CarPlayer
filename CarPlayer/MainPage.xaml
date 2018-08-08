@@ -10,7 +10,8 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="80" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="53*" />
+            <RowDefinition Height="52*"/>
             <RowDefinition Height="100" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -19,18 +20,95 @@
             <ColumnDefinition Width="10" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="1" Margin="223,18,203,0" FontSize="18" TextWrapping="Wrap" Text="Car Audio Player" VerticalAlignment="Top"/>
-        <Button Grid.Row="0" Grid.Column="1" Content="Load Folder" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" Click="btnBrowse_Click"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Margin="143,19,0,0" FontSize="18" TextWrapping="Wrap" Text="Car Audio Player" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button Grid.Row="0" Grid.Column="1" Content="Load Folder" HorizontalAlignment="Right" Margin="0,15,10,0" VerticalAlignment="Top" Tapped="btnBrowse_Click" Click="btnBrowse_Click"/>
 
-        <ListView Grid.Row="1"  Grid.Column="1" x:Name="lstMusic">
+        <ListView Grid.Row="1" Grid.Column="1" x:Name="lstMusic"  HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Top">
             <ListView.ItemTemplate>
                 <DataTemplate x:Name="Music" x:DataType="local:Music">
-                    <TextBlock Text="{x:Bind Name}" Tag="{x:Bind Id}" Width="580" Tapped="btnMusic_Click" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Bind Name}" Tag="{x:Bind Id}" Width="580" DoubleTapped="btnMusic_Click" VerticalAlignment="Center"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
-        <MediaElement x:Name="mediaElement" Grid.Row="2" Grid.Column="1" Margin="0,20" AreTransportControlsEnabled="True" />
+        <Grid Grid.Row="3" Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <MediaElement CurrentStateChanged="Media_State_Changed"
+            x:Name="media" Source="xbox.wmv" Width="300" Height="300" 
+                      Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" />
+
+            <!-- Stops media playback.-->
+            <Button Click="StopMedia" 
+            Grid.Column="0" Grid.Row="1" Content="Stop" />
+
+            <!-- Pauses media playback. -->
+            <Button Click="PauseMedia" 
+            Grid.Column="1" Grid.Row="1" Content="Pause" />
+
+            <!-- Begins media playback. -->
+            <Button Click="PlayMedia" 
+            Grid.Column="2" Grid.Row="1" Content="Play" />
+
+            <!-- Begins media playback. -->
+            <Button Click="PlayNext" 
+            Grid.Column="3" Grid.Row="1" Content="Next" />
+
+            <!-- Begins media playback. -->
+            <Button Click="SetRandom"  x:Name="randomBtn"
+            Grid.Column="4" Grid.Row="1" Content="Random"/>
+
+            <TextBlock
+            Grid.Column="0" Grid.Row="2" Margin="10" 
+            FontSize="12">CurrentState:</TextBlock>
+
+            <TextBlock 
+            x:Name="mediaStateTextBlock"
+            Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2" Margin="0,10,0,0"
+            FontSize="12"></TextBlock>
+
+        </Grid>
+
+
+        <Grid x:Name="grdPicker" Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Margin="0,52,0,0" Background="Bisque" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="40" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Name="lblBreadcrumb"  Grid.Column="0" VerticalAlignment="Bottom" Margin="10, 0, 0, 0" Text="> My PC" Style="{StaticResource TitleTextBlockStyle}" />
+                <Button x:Name="btnSelect" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Content="Select" Margin="10, 0, 0, 0" Click="btnSelect_Click" />
+                <Button x:Name="btnCancel" Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Content="Cancel" Margin="10, 0, 0, 0" Click="btnCancel_Click" />
+            </Grid>
+
+            <ListView x:Name="lstFiles" Grid.Row="1" Grid.Column="1" Margin="0,20" KeyUp="lstFiles_KeyUp" DoubleTapped="lstFiles_DoubleTapped" IsTabStop="True" />
+
+        </Grid>
+
+        <Button Grid.Row="0" Grid.Column="1" Content="Clear List" HorizontalAlignment="Right" Margin="0,15,131,0" VerticalAlignment="Top" Tapped="btnClear_Click" Click="btnClear_Click" RenderTransformOrigin="0.485,0.625"/>
 
     </Grid>
 </Page>
