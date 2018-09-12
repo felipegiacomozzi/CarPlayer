@@ -303,7 +303,7 @@ namespace CarPlayer
 
                     foreach (var music in files)
                     {
-                        string musicName = music.Name.Split(".mp3".ToCharArray())[0];
+                        string musicName = music.Name.Split(new string[] { ".mp3" }, StringSplitOptions.None)[0];
                         if (!string.IsNullOrWhiteSpace(musicName))
                             musicList.Add(new Music() { Name = musicName, Id = music.GetHashCode(), File = music });
                     }
@@ -410,6 +410,14 @@ namespace CarPlayer
             ChangeStateLabel();
         }
 
+        private void Media_State_Ended(object sender, RoutedEventArgs e)
+        {
+            if (nextMusic != null)
+            {
+                PlayNextMusic();
+            }
+        }
+
         private void ChangeStateLabel()
         {
             string currentMusicName = currentMusic != null ? currentMusic.Name : "";
@@ -418,13 +426,8 @@ namespace CarPlayer
             mediaStateTextBlock.Text = $"{media.CurrentState.ToString()} {currentMusicName} - NextUp - {nextMusicName}";
             if (currentMusic != null)
             {
-                //var item = lstMusic.Items.Where(x => ((Music)x).Id == currentMusic.Id).FirstOrDefault();
-
-                //if (item != null)
-                //{
-                    lstMusic.SelectedItem = currentMusic;
-                    lstMusic.ScrollIntoView(currentMusic);
-                //}
+                lstMusic.SelectedItem = currentMusic;
+                lstMusic.ScrollIntoView(currentMusic);
             }
         }
         #endregion
